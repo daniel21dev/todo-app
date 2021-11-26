@@ -7,10 +7,10 @@ const saveUser = async(req,res)=>{
     const {email,name,password} = req.body;
     try{
 
-        const checkUser = await prisma.user.findUnique({
+        const userExists = await prisma.user.findUnique({
             where:{email}
         });
-        if( checkUser ){
+        if( userExists ){
             res.status(500).json({error: 'An user is already resgistered with this email'})
         }
 

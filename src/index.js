@@ -10,7 +10,8 @@ const main = async () => {
     const port = process.env.PORT
     const paths = {
         users: '/api/v1/users',
-        todos: '/api/v1/todos'
+        todos: '/api/v1/todos',
+        login: '/api/v1/login'
     }
     // middlewares
     app.use( cors() )
@@ -18,6 +19,7 @@ const main = async () => {
     // routes
     app.use( paths.users, require('./routes/users') )
     app.use( paths.todos, require('./routes/todos') )
+    app.use( paths.login, require('./routes/login') )
 
     // app listen for requests
     app.listen(port,()=>{

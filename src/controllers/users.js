@@ -15,7 +15,7 @@ const saveUser = async(req,res)=>{
         }
 
         const salt = bcrypt.genSaltSync(10);
-        const securePassword = bcrypt.hashSync(req.body.password, salt);
+        const securePassword = bcrypt.hashSync(password, salt);
 
         const user = await prisma.user.create({
             data:{
@@ -29,7 +29,7 @@ const saveUser = async(req,res)=>{
                 name: true,
             }
         })
-        
+
         const token = await generarJwt(user.id, '3d');
         res.json({user, token});
     } catch (error) {

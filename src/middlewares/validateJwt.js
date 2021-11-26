@@ -14,7 +14,9 @@ const validateJWT = async (req, res, next) =>{
 
     try {
         const { userId } = jwt.verify( token, process.env.SECRETWORD );
-        const userAuth = await prisma.user.findUnique({id: userId});
+        const userAuth = await prisma.user.findUnique({
+            where:{ id: Number(userId) }
+        });
 
         if( !userAuth ){
             res.status(401).json({
@@ -23,7 +25,6 @@ const validateJWT = async (req, res, next) =>{
         }
 
         req.user = userAuth;
-
         next();
     } catch (error) {
         console.log( error );

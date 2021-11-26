@@ -12,7 +12,6 @@ const getTodos = async(req,res)=>{
 }
 
 const createTodo = async(req,res)=>{
-    const {userId} = req.params;
     const {title,content,dueDate} = req.body;
     try {
         const todos = await prisma.todo.create({
@@ -20,7 +19,7 @@ const createTodo = async(req,res)=>{
                 title,
                 content,
                 dueDate: new Date(dueDate),
-                user:{connect:{id: Number(userId)}}
+                user:{connect:{id: req.user.id}}
             }
         })
         res.json({todos});

@@ -1,9 +1,8 @@
 const {Router} = require('express')
 const router   = Router()
-const { getUsers } = require('../controllers/users')
+const { getUsers, saveUser } = require('../controllers/users')
 
-
-
+router.post('/', saveUser)
 router.get('/', getUsers)
 
 

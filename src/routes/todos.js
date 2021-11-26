@@ -1,6 +1,6 @@
 const {Router} = require('express')
 const router   = Router()
-const { getTodos, createTodo } = require('../controllers/todos')
+const { getTodos, createTodo, updateTodo } = require('../controllers/todos')
 const { validateJWT } = require('../middlewares/validateJwt')
 
 
@@ -11,6 +11,10 @@ router.get('/',[
 router.post('/',[
     validateJWT
 ],createTodo)
+
+router.put('/:id',[
+    validateJWT
+],updateTodo)
 
 
 module.exports = router

@@ -29,7 +29,30 @@ const createTodo = async(req,res)=>{
     }
 }
 
+const updateTodo = async(req,res)=>{
+    const {id} = req.params;
+    const {title,content,completed,dueDate} =req.body
+    try {
+        const todo = await prisma.todo.update({
+            where:{
+                id: Number(id)
+            },
+            data:{
+                title,
+                content,
+                completed,
+                dueDate: new Date(dueDate)
+            }
+        })
+        res.json({todo});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error})
+    }
+}
+
 module.exports = {
     getTodos,
-    createTodo
+    createTodo,
+    updateTodo
 }

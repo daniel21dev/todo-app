@@ -23,7 +23,7 @@ model Todo {
   content   String?
   completed Boolean  @default(false)
   dueDate   DateTime
-  active    Boolean
+  active    Boolean   @default(true)
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
 }

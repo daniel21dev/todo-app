@@ -3,7 +3,12 @@ const prisma = new PrismaClient()
 
 const getTodos = async(req,res)=>{
     try {
-        const todos = await prisma.todo.findMany({});
+        const todos = await prisma.todo.findMany({
+            where:{
+                userId: req.user.id,
+                active: true,
+            }
+        });
         res.json({todos});
     } catch (error) {
         console.log(error);
@@ -51,8 +56,27 @@ const updateTodo = async(req,res)=>{
     }
 }
 
+const deleteTodo = async(req,res)=>{
+    const {id} = req.params;
+    try {
+        const todo = await prisma.todo.update({
+            where:{
+                id: Number(id)
+            },
+            data:{
+                active: false
+            }
+        })
+        res.json({todo});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error})
+    }
+}
+
 module.exports = {
     getTodos,
     createTodo,
-    updateTodo
+    updateTodo,
+    deleteTodo
 }

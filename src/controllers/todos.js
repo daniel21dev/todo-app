@@ -67,7 +67,7 @@ const deleteTodo = async(req,res)=>{
                 active: false
             }
         })
-        res.json({todo});
+        res.json({msg: 'successful deleted!'});
     } catch (error) {
         console.log(error);
         res.status(500).json({error})

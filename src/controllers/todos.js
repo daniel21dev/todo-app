@@ -1,17 +1,28 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient } = require('@prisma/client');
+const { startOfDay, endOfDay } = require('date-fns');
 const prisma = new PrismaClient()
 
 const getTodos = async(req,res)=>{
     const {
         sortDirection='desc',
         pageLenght=10,
-        page=0
+        page=0,
+        fromDate,
+        toDate
     } = req.query;
     try {
         const todos = await prisma.todo.findMany({
             where:{
                 userId: req.user.id,
                 active: true,
+                AND:{
+                    createdAt:{
+                        gte: startOfDay(new Date(fromDate)).toISOString()
+                    },
+                    createdAt:{
+                        lte: endOfDay(new Date(toDate)).toISOString()
+                    }
+                }
             },
             orderBy:{
                 createdAt: sortDirection
@@ -71,7 +82,7 @@ const deleteTodo = async(req,res)=>{
     try {
         const todo = await prisma.todo.update({
             where:{
-                id: Number(id)
+                id: Number(id),
             },
             data:{
                 active: false

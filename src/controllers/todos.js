@@ -2,12 +2,22 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 const getTodos = async(req,res)=>{
+    const {
+        sortDirection='desc',
+        pageLenght=10,
+        page=0
+    } = req.query;
     try {
         const todos = await prisma.todo.findMany({
             where:{
                 userId: req.user.id,
                 active: true,
-            }
+            },
+            orderBy:{
+                createdAt: sortDirection
+            },
+            skip: Number(pageLenght) * Number(page),
+            take: Number(pageLenght),
         });
         res.json({todos});
     } catch (error) {

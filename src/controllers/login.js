@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs');
-const { generarJwt } = require('../helpers/generteJwt');
+const { generateJwt } = require('../helpers/generteJwt');
 
 const loginUser = async(req,res)=>{
     const {email,password} = req.body;
@@ -15,7 +15,7 @@ const loginUser = async(req,res)=>{
             return res.status(500).json({error: 'auth error'})
         }
 
-        const token = await generarJwt(user.id, '3d');
+        const token = await generateJwt(user.id, '3d');
         res.json({token});
     } catch (error) {
         console.log(error);

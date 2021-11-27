@@ -1,19 +1,11 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs');
-const { generarJwt } = require('../helpers/generteJwt');
+const { generateJwt } = require('../helpers/generteJwt');
 
 const saveUser = async(req,res)=>{
     const {email,name,password} = req.body;
     try{
-
-        const userExists = await prisma.user.findUnique({
-            where:{email}
-        });
-        if( userExists ){
-            res.status(500).json({error: 'An user is already resgistered with this email'})
-        }
-
         const salt = bcrypt.genSaltSync(10);
         const securePassword = bcrypt.hashSync(password, salt);
 
@@ -30,7 +22,7 @@ const saveUser = async(req,res)=>{
             }
         })
 
-        const token = await generarJwt(user.id, '3d');
+        const token = await generateJwt(user.id, '3d');
         res.json({user, token});
     } catch (error) {
         console.log(error);

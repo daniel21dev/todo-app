@@ -24,7 +24,7 @@ model Todo {
   completed Boolean  @default(false)
   dueDate   DateTime
   active    Boolean   @default(true)
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId    Int
 }
 

@@ -7,8 +7,8 @@ const getTodos = async(req,res)=>{
         sortDirection='desc',
         pageLenght=10,
         page=0,
-        fromDate,
-        toDate
+        fromDate=null,
+        toDate=null
     } = req.query;
     try {
         const todos = await prisma.todo.findMany({
@@ -16,13 +16,9 @@ const getTodos = async(req,res)=>{
                 userId: req.user.id,
                 active: true,
                 AND:{
-                    createdAt:{
-                        gte: startOfDay(new Date(fromDate)).toISOString()
-                    },
-                    createdAt:{
-                        lte: endOfDay(new Date(toDate)).toISOString()
-                    }
-                }
+                    createdAt: fromDate ? {gte: startOfDay(new Date(fromDate)) } : {},
+                    createdAt: toDate ? {lte: endOfDay(new Date(toDate)) } : {}
+                },
             },
             orderBy:{
                 createdAt: sortDirection
@@ -40,7 +36,7 @@ const getTodos = async(req,res)=>{
 const createTodo = async(req,res)=>{
     const {title,content,dueDate} = req.body;
     try {
-        const todos = await prisma.todo.create({
+        const todo = await prisma.todo.create({
             data:{
                 title,
                 content,
@@ -48,7 +44,7 @@ const createTodo = async(req,res)=>{
                 user:{connect:{id: req.user.id}}
             }
         })
-        res.json({todos});
+        res.json({todo});
     } catch (error) {
         console.log(error);
         res.status(500).json({error})

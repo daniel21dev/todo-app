@@ -4,7 +4,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const bcrypt = require('bcryptjs')
 
-describe('POST /users', () => {
+describe('/login', () => {
     // declares a testing user in order to test the login
     let testingUser;
     beforeAll(async () => {

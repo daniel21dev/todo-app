@@ -63,7 +63,7 @@ const updateTodo = async(req,res)=>{
                 title,
                 content,
                 completed,
-                dueDate: new Date(dueDate)
+                dueDate: dueDate ? new Date(dueDate) : null
             }
         })
         res.json({todo});

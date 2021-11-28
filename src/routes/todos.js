@@ -21,10 +21,10 @@ router.post('/',[
 router.put('/:id',[
     validateJWT,
     check('id',  'must be an integer').isInt(),
-    check('title',  'must be an string').isString(),
-    check('content','must be an string').isString(),
-    check('dueDate','must be an string').isString(),
-    check('completed','must be a boolean').isBoolean(),
+    // check('title',  'must be an string').isString(),
+    // check('content','must be an string').isString(),
+    // check('dueDate','must be an string').isString(),
+    // check('completed','must be a boolean').isBoolean(),
     validateFields
 ],updateTodo)
 

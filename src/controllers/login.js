@@ -16,7 +16,7 @@ const loginUser = async(req,res)=>{
         }
 
         const token = await generateJwt(user.id, '3d');
-        res.json({token});
+        res.json({user,token});
     } catch (error) {
         console.log(error);
         res.status(500).json({error})
